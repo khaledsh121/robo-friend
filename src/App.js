@@ -1,43 +1,43 @@
-import './App.css';
+import "./App.css";
 
-import { useEffect, useState } from 'react';
-import SearchField from './component/searchField';
-import CardList from './component/Card-List';
+import { useEffect, useState } from "react";
+import SearchField from "./component/searchField";
+import CardList from "./component/Card-List";
 
 function App() {
-
-  const [monster,setMonster] = useState([]);
-  const [newText , setNewText] = useState('')
+  const [monster, setMonster] = useState([]);
+  const [newText, setNewText] = useState("");
 
   useEffect(() => {
-    fetch('https://jsonplaceholder.typicode.com/users')
-     .then(response => response.json())
-     .then(users => setMonster(users));
-  } ,[]);
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((users) => setMonster(users));
+  }, []);
 
-  const changeSearchHandler = (newText) =>{
-    setNewText(newText);
+  const changeSearchHandler = (newText) => {
+    setNewText(newText.toLowerCase());
   };
 
-  const filteredMonster = monster.filter(monster => monster.name.includes(newText))
-  
+  const filteredMonster = monster.filter((monster) =>
+    monster.name.toLowerCase().includes(newText)
+  );
 
-  if(filteredMonster.length ===0){
+  if (filteredMonster.length === 0) {
     return (
       <div>
         <SearchField onChangeSearch={changeSearchHandler} />
         <div>
-         <h1>There was no found result</h1>
+          <h1>There was no found result</h1>
         </div>
-    </div>
-    )
+      </div>
+    );
   }
 
   return (
     <div>
       <SearchField onChangeSearch={changeSearchHandler} />
-      <div >
-      <CardList monsterList={filteredMonster} />
+      <div>
+        <CardList monsterList={filteredMonster} />
       </div>
     </div>
   );
